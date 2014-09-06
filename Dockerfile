@@ -5,12 +5,12 @@ MAINTAINER Suresh Khatri, kc2005au@gmail.com
 
 #Put your datastax registration info here.
 #Either get from Datastax
-#RUN wget http://user:password@downloads.datastax.com/enterprise/dse-4.5.1-bin.tar.gz -O /tmp/dse-4.5.1-bin.tar.gz
+RUN wget http://user:password@downloads.datastax.com/enterprise/dse-4.5.1-bin.tar.gz -O /tmp/dse-4.5.1-bin.tar.gz
 #Use local server to work with already downloaded dse
 #RUN wget http://10.1.1.19:8900/dse-4.5.1-bin.tar.gz -O /tmp/dse-4.5.1-bin.tar.gz
 
 #Download to local and use to tmp of the container
-COPY dse-4.5.1-bin.tar.gz /tmp/
+#COPY dse-4.5.1-bin.tar.gz /tmp/
 
 RUN mkdir -p /opt/local/datastax && cd /opt/local/datastax && tar zxf /tmp/dse-4.5.1-bin.tar.gz
 
