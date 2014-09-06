@@ -26,5 +26,5 @@ ENV DSE_HOME /opt/local/datastax/dse-4.5.1
 
 ENV PATH $DSE_HOME/bin:$PATH
 
-CMD ["dse", "cassandra"]
+CMD ["dse", "cassandra", "-f"]
 
