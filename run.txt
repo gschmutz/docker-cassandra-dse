@@ -1,0 +1,26 @@
+
+docker run -d -p 9160:9160 -t skhatri/cassandra
+
+docker run -d -p 9260:9160 -t skhatri/cassandra
+
+
+docker build -t skhatri/cassandra .
+
+docker run -i -p 9160:9160 -p 7199:7199 -p 7000:7000 -t skhatri/cassandra
+
+docker run -i -p 9260:9160 -t skhatri/cassandra
+
+
+
+ifconfig eth0|grep 172|grep inet|awk '{print $2}'|cut -d':' -f2
+
+CMD ["dse", "cassandra"]
+
+
+echo "listen_address: $(ifconfig eth0|grep addr:1|grep inet|awk '{print $2}'|cut -d':' -f2)"
+
+echo "seed_provider:                                                       
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider            
+      parameters:                                                               
+          - seeds: "$(ifconfig eth0|grep addr:1|grep inet|awk '{print $2}'|cut -d':' -f2)"                    
+"

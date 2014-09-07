@@ -15,16 +15,17 @@ COPY dse-4.5.1-bin.tar.gz /tmp/
 RUN mkdir -p /opt/local/datastax && cd /opt/local/datastax && tar zxf /tmp/dse-4.5.1-bin.tar.gz
 
 COPY lib.txt /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/
-COPY cassandra.yaml /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/
+COPY cassandra.yaml /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/template.yaml
+RUN cat /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/template.yaml > /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/cassandra.yaml
 RUN cat /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/lib.txt >> /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/cassandra.yaml
+COPY addip.sh /opt/local/datastax/dse-4.5.1/resources/cassandra/conf/
 
 RUN rm -rf /tmp/dse-4.5.1-bin.tar.gz
 
-EXPOSE 9042 9160
+EXPOSE 9042 9160 7199 7000
 
 ENV DSE_HOME /opt/local/datastax/dse-4.5.1
 
 ENV PATH $DSE_HOME/bin:$PATH
 
-CMD ["dse", "cassandra", "-f"]
-
+#CMD ["/opt/local/datastax/dse-4.5.1/resources/cassandra/conf/addip.sh"]
