@@ -28,4 +28,4 @@ ENV DSE_HOME /opt/local/datastax/dse-4.5.1
 
 ENV PATH $DSE_HOME/bin:$PATH
 
-#CMD ["/opt/local/datastax/dse-4.5.1/resources/cassandra/conf/addip.sh"]
+CMD ["/opt/local/datastax/dse-4.5.1/resources/cassandra/conf/addip.sh"]

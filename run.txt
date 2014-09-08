@@ -4,13 +4,16 @@ docker run -d -p 9160:9160 -t skhatri/cassandra
 docker run -d -p 9260:9160 -t skhatri/cassandra
 
 
-docker build -t skhatri/cassandra .
+docker build -t skhatri/dse-cassandra .
 
 docker run -i -p 9160:9160 -p 7199:7199 -p 7000:7000 -t skhatri/cassandra
+docker run -i -p 9160:9160 -t skhatri/cassandra
+docker run -i -p 9260:9160 -t skhatri/cassandra
 
 docker run -i -p 9260:9160 -t skhatri/cassandra
 
 
+docker run -i -p 9160:9160 -p 7199:7199 -p 7000:7000 -t skhatri/dse-cassandra
 
 ifconfig eth0|grep 172|grep inet|awk '{print $2}'|cut -d':' -f2
 
@@ -24,3 +27,64 @@ echo "seed_provider:
       parameters:                                                               
           - seeds: "$(ifconfig eth0|grep addr:1|grep inet|awk '{print $2}'|cut -d':' -f2)"                    
 "
+to use local registry
+
+run docker registry
+docker run -v /tmp/registry:/tmp/registry -p 5000:5000 registry
+
+tag image with local url
+docker tag skhatri/cassandra localhost:5000/cassandra
+push to local registry
+docker push localhost:5000/cassandra
+
+
+docker pull localhost:5000/cassandra
+
+
+
+run private repository outside docker
+
+sudo pip install docker-registry
+docker-registry
+
+
+docker tag skhatri/cassandra 192.168.0.79:5000/cassandra
+docker push 192.168.59.3:5000/cassandra
+
+
+docker tag skhatri/cassandra iit-laptop-232:5000/cassandra
+docker push iit-laptop-232:5000/cassandra
+
+docker tag skhatri/cassandra-txns iit-laptop-232:5000/cassandra-txns
+docker push iit-laptop-232:5000/cassandra-txns
+
+
+
+docker run -d -p 9160:9160 -p 9042:9042 -p 7199:7199 -t skhatri/cassandra
+
+docker ps -a |grep 9160\-\>9160|awk '{print $1}'
+
+$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1)
+
+
+
+docker run -d -p 9160:9160 -p 9042:9042 -p 7199:7199 -t skhatri/cassandra
+
+docker run -d -p 9260:9160 -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+
+docker run -d -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+
+docker run -i -p 9360:9160 -e MANUAL=yes -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra-manual
+
+
+
+
+
+
+
+
+
+
+
+
+
