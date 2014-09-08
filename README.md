@@ -36,3 +36,19 @@ cqlsh localhost 9260
 More nodes can be run using the docker run command and the VBoxManage command to expose the service to the host system.
 
 
+Running a multinode cluster using docker containers
+
+- Start first node as seed
+```
+docker run -d -p 9160:9160 -p 9042:9042 -p 7199:7199 -t skhatri/cassandra
+```
+
+- Find the node with 9160 and treat it as seed and start another instance
+```
+docker run -d -p 9260:9160 -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+```
+- Start third instance of cassandra
+```
+docker run -d -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+```
+
