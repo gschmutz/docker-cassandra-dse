@@ -10,13 +10,13 @@ There are three ways in which dse cassandra can be installed using this docker b
 
 Build dse cassandra using the Dockerfile
 ```
-docker build -t skhatri/dse-cassandra .
+docker build -t gschmutz/dse-cassandra .
 ```
 
 To run an instance of dse cassandra 
 
 ```
-docker run -d -p 9160:9160 -t skhatri/dse-cassandra 
+docker run -d -p 9160:9160 -t gschmutz/dse-cassandra 
 ```
 
 Set port forwarding for VirtualBox for environments using boot2docker
@@ -40,15 +40,15 @@ Running a multinode cluster using docker containers
 
 - Start first node as seed
 ```
-docker run -d -p 9160:9160 -p 9042:9042 -p 7199:7199 -t skhatri/cassandra
+docker run -d -p 9160:9160 -p 9042:9042 -p 7199:7199 -t gschmutz/cassandra
 ```
 
 - Find the node with 9160 and treat it as seed and start another instance
 ```
-docker run -d -p 9260:9160 -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+docker run -d -p 9260:9160 -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t gschmutz/cassandra
 ```
 - Start third instance of cassandra
 ```
-docker run -d -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t skhatri/cassandra
+docker run -d -e SEEDS=$(docker inspect `docker ps -a |grep 9160\-\>9160|awk '{print $1}'`|grep 172|grep IP|awk '{print $2}'|cut -d',' -f1) -t gschmutz/cassandra
 ```
 
