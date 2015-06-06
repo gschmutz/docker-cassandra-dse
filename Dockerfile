@@ -1,7 +1,7 @@
 FROM skhatri/dev-base
 
 
-MAINTAINER Suresh Khatri, kc2005au@gmail.com
+MAINTAINER Guido Schmutz, guido.schmutz@trivadis.com (credits to Suresh Khatri, kc2005au@gmail.com)
 
 #Put your datastax registration info here.
 #Either get from Datastax
